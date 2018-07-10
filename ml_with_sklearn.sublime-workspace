@@ -1,0 +1,336 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"mi",
+				"mnist\tstatement"
+			],
+			[
+				"summ",
+				"summary"
+			],
+			[
+				"x_",
+				"x_train_3\tstatement"
+			],
+			[
+				"m",
+				"m_name"
+			],
+			[
+				"class",
+				"class_"
+			],
+			[
+				"di",
+				"dict_data"
+			],
+			[
+				"car",
+				"car_group"
+			],
+			[
+				"bran",
+				"brand_group"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/User/mypython.sublime-build",
+					""
+				],
+				[
+					"Packages/User/mypython.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/User/mypython.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 35.0,
+		"last_filter": "git:comm",
+		"selected_items":
+		[
+			[
+				"git:comm",
+				"Git: Commit"
+			],
+			[
+				"git: add",
+				"Git: Add All"
+			],
+			[
+				"git: ",
+				"Git: Init"
+			],
+			[
+				"git push ",
+				"Git: Push"
+			],
+			[
+				"git",
+				"Git: Push"
+			],
+			[
+				"Package Control: remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: install ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: insta",
+				"Package Control: Install Package"
+			],
+			[
+				"intall",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 266.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/ml_python/ml_with_sklearn"
+	],
+	"file_history":
+	[
+		"/D/ml_python/nltk/README.md",
+		"/D/ml_python/nltk/nltk.py",
+		"/C/Users/zhengshiguang/AppData/Roaming/Sublime Text 3/Packages/User/untitled.sublime-build",
+		"/D/ml_python/nltk/xx.py",
+		"/C/Users/zhengshiguang/AppData/Roaming/Sublime Text 3/Packages/User/mypython.sublime-build",
+		"/C/Users/zhengshiguang/AppData/Roaming/Sublime Text 3/Packages/User/Git.sublime-settings",
+		"/C/Users/zhengshiguang/AppData/Roaming/Sublime Text 3/Packages/SideBarEnhancements/Side Bar.sublime-settings",
+		"/C/Users/zhengshiguang/AppData/Roaming/Sublime Text 3/Packages/User/Side Bar.sublime-settings",
+		"/D/ml_python/nltk",
+		"/D/ml_python/minst/input_data.py",
+		"/D/ml_python/minst/model.py",
+		"/D/ml_python/minst/cnn.py",
+		"/D/Program Files (x86)/python/lib/site-packages/tensorflow/contrib/learn/python/learn/datasets/base.py",
+		"/D/ml_python/insuranceQA-cnn-lstm-master/gen.py",
+		"/D/ml_python/insuranceQA-cnn-lstm-master/test.py",
+		"/D/ml_python/insuranceQA-cnn-lstm-master/cnn/tensorflow/insqa_cnn.py",
+		"/D/Program Files (x86)/python/lib/site-packages/tensorflow/python/ops/array_ops.py",
+		"/D/Program Files (x86)/python/lib/site-packages/tensorflow/tools/api/generator/api/nn/__init__.py",
+		"/D/ml_python/insuranceQA-cnn-lstm-master/cnn/tensorflow/insurance_qa_data_helpers.py",
+		"/D/ml_python/insuranceQA-cnn-lstm-master/cnn/tensorflow/insqa_train.py",
+		"/D/ml_python/insuranceQA-cnn-lstm-master/cnn/theano/insqa_cnn.py",
+		"/D/ml_python/insuranceQA-cnn-lstm-master/test2.py",
+		"/D/Program Files (x86)/python/lib/site-packages/tensorflow/python/ops/nn_ops.py",
+		"/D/Program Files (x86)/python/lib/site-packages/tensorflow/python/util/tf_export.py",
+		"/D/Program Files (x86)/python/lib/site-packages/tensorflow/python/ops/embedding_ops.py",
+		"/D/ml_python/insuranceQA-cnn-lstm-master/insuranceQA-master/question.train.token_idx.label",
+		"/D/ml_python/insuranceQA-cnn-lstm-master/insuranceQA/test1",
+		"/D/ml_python/insuranceQA-cnn-lstm-master/insuranceQA/train",
+		"/D/ml_python/insuranceQA-cnn-lstm-master/test",
+		"/C/Users/zhengshiguang/Desktop/scrapy_brand.py",
+		"/C/Users/zhengshiguang/Desktop/urllib.py",
+		"/C/Users/zhengshiguang/Desktop/xxx.py",
+		"/D/python_code/kpi_forecast_simple/script/lr.py",
+		"/C/Users/zhengshiguang/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/zhengshiguang/AppData/Roaming/Sublime Text 3/Packages/Default/Default (Windows).sublime-keymap"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 39.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 100.0
+	},
+	"pinned_build_system": "Packages/User/my-python.sublime-build",
+	"project": "ml_with_sklearn.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 297.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
