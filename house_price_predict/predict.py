@@ -34,15 +34,15 @@ def stratified_split_train_test(data, test_ratio):
 		strat_test_set = data.iloc[test_indices]
 	return strat_train_set, strat_test_set
 
-def describe(df_house):
+def describe(data):
 	'''
 	print("info:")
-	print(df_house.info())
+	print(data.info())
 	
 	print("describe:")
-	print(df_house.describe())
+	print(data.describe())
 	'''
-	df_house.hist(bins=50, figsize=(28, 15))
+	data.hist(bins=50, figsize=(28, 15))
 	plt.show()
 
 def compare_random_split_and_stratified_split(data):
@@ -96,15 +96,62 @@ def visulation_and_discover(data):
 	plt.show()
 	'''
 	
+	'''
 	copy_data["rooms_per_household"] = copy_data["total_rooms"] / copy_data["households"]
 	copy_data["bedrooms_per_room"] = copy_data["total_bedrooms"] / copy_data["total_rooms"]
 	copy_data["population_per_household"] = copy_data["population"] / copy_data["households"]
 	corr_matrix = copy_data.corr()
 	print(corr_matrix['median_house_value'].sort_values(ascending=False))
-	
+	'''
+
+
+def data_clean(data):
+	'''
+	Chapter 1: handing missing values
+	# option 1: drop na
+	data.dropna(subset=['total_bedrooms'])
+	# option 2: drop
+	data.drop("total_bedrooms", axis=1)
+	# option 3: fill median
+	median = data['total_bedrooms'].median()
+	data['total_bedrooms'].fillna(median)
+	# option 4: fill median by sklearn imputer
+	from sklearn.preprocessing import Imputer
+	data_num = data.drop('ocean_proximity', axis=1)
+	imputer = Imputer(strategy="median")
+	imputer.fit(data_num)
+	print("statistics_:", imputer.statistics_)
+	print("median:", data_num.median().values)
+	'''
+
+	'''
+	# Chapter 2: handing text and categorical attributes
+	# option 1: LabelEncoder or OrdinalEncoder & OneHotEncoder
+	from sklearn.preprocessing import LabelEncoder
+	label_encoder = LabelEncoder()
+	label_encoded = label_encoder.fit_transform(data['ocean_proximity'])
+	print(label_encoder.classes_)
+	print(label_encoded.shape)
+	print(label_encoded[0:10, ])
+	# OneHot Encoder return a scipy sparse matrix
+	from sklearn.preprocessing import OneHotEncoder
+	hot_encoder = OneHotEncoder()
+	hot_encoded = hot_encoder.fit_transform(label_encoded.reshape(-1,1))
+	print(hot_encoded.toarray()[0:10, ])
+	# option 2: pd.DataFrame.get_dummies()
+	dummies = pd.get_dummies(data['ocean_proximity'], 'ocean_proximity')
+	data[dummies.columns] = dummies
+	print(data.head())
+	# option 3: LabelBinarizer, mix of LabelEncoder and OneHotEncoder
+	'''
+
+	# Chapter 3: Scale
+	# option 1: MaxMinScaler
+
 
 df_house = read_data()
 #compare_random_split_and_stratified_split(df_house)
-visulation_and_discover(df_house)
+#visulation_and_discover(df_house)
+data_clean(df_house)
 
 
