@@ -1,8 +1,14 @@
+'''
+	1. LinearRegression没考虑正则化，交叉验证有大坑，容易某个分组过拟合
+	2. 考虑L2正则就是Ridge
+	3. 考虑L1正则就是Lasso
+'''
 
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import Imputer
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
@@ -10,7 +16,9 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import FeatureUnion
-
+from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
 
 
 
@@ -52,79 +60,80 @@ class MyLabelBinarizer(BaseEstimator, TransformerMixin):
 	def transform(self, x):
 		return self.label_binarizer.fit_transform(x)
 
-class HousePricePredict(object):
-	def __init__(self):
-		self.imputer = Imputer(strategy="median", missing_values=np.nan)
-		self.min_max_scaler_x = MinMaxScaler()
-		self.min_max_scaler_y = MinMaxScaler()
-		self.label_binarizer = MyLabelBinarizer()
+def read_data(file_path):
+	df_data = pd.read_csv(file_path, dtype={"longitude": float, "latitude": float, "housing_median_age": float, "total_rooms": float, "total_bedrooms": float, "population": float, "households": float, "median_income": float, "median_house_value": float, "ocean_proximity": str})
+	df_x = df_data.copy().drop("median_house_value", axis=1)
+	df_y = df_data[["median_house_value"]].copy()
+	return df_x, df_y
 
-	def read_data(self, file_path):
-		self.data = pd.read_csv(file_path, dtype={"longitude": float, "latitude": float, "housing_median_age": float, "total_rooms": float, "total_bedrooms": float, "population": float, "households": float, "median_income": float, "median_house_value": float, "ocean_proximity": str})
-		self.x = self.data.copy().drop("median_house_value", axis=1)
-		self.y = self.data[["median_house_value"]].copy()
+def random_split_train_test(x, y, test_ratio=0.2, random_state=10):
+	np.random.seed(random_state)
+	shuffled_indices = np.random.permutation(len(x))
+	test_set_size = int(len(x) * test_ratio)
+	test_indices = shuffled_indices[:test_set_size]
+	train_indices = shuffled_indices[test_set_size:]
+	train_x, train_y, test_x, test_y = x[train_indices, :], y[train_indices, :], x[test_indices, :], y[test_indices, :]
+	return (train_x, train_y), (test_x, test_y)
 
-	def random_split_train_test(self, test_ratio=0.2, random_state=42):
-		np.random.seed(random_state)
-		shuffled_indices = np.random.permutation(len(self.data))
-		test_set_size = int(len(self.data) * test_ratio)
-		test_indices = shuffled_indices[:test_set_size]
-		train_indices = shuffled_indices[test_set_size:]
-		self.train_x, self.train_y = self.processed_x[train_indices, :], self.processed_y[train_indices, :]
-		self.test_x, self.test_y = self.processed_x[test_indices, :], self.processed_y[test_indices, :]
-
-
-	def preprocessing(self):
-		attribs = self.x.columns.tolist()
-		num_attribs = list(attribs)
-		num_attribs.remove("ocean_proximity")
-		cat_attribs = ["ocean_proximity"]
-		num_pipeline = Pipeline([
-			("selector", DataFrameSelector(num_attribs)),
-			("imputer", self.imputer),
-			("combine", CombinedAttributesAdder()),
-			("scaler", self.min_max_scaler_x)
-			])
-		cat_pipeline = Pipeline([
-			("selector", DataFrameSelector(cat_attribs)),
-			#("labelEncoder", self.label_encoder),
-			#("oneHotEncoder", self.one_hot_encoder)
-			("label_binarizer", self.label_binarizer)
-			])
-		full_pipeline = FeatureUnion(transformer_list = [
-			("num_pipeline", num_pipeline),
-			("cat_pipeline", cat_pipeline)
-			])
+min_max_scaler_x = MinMaxScaler()
+min_max_scaler_y = MinMaxScaler()
+def preprocess(df_x, df_y):
+	attribs = df_x.columns.tolist()
+	num_attribs = list(attribs)
+	num_attribs.remove("ocean_proximity")
+	num_pipeline = Pipeline([
+		("selector", DataFrameSelector(num_attribs)),
+		("imputer", Imputer(strategy="median", missing_values=np.nan)),
+		("combine", CombinedAttributesAdder()),
+		("scaler", min_max_scaler_x)
+	])
+	cat_attribs = ["ocean_proximity"]
+	cat_pipeline = Pipeline([
+		("selector", DataFrameSelector(cat_attribs)),
+		#("labelEncoder", self.label_encoder),
+		#("oneHotEncoder", self.one_hot_encoder)
+		("label_binarizer", MyLabelBinarizer())
+	])
+	full_pipeline = FeatureUnion(transformer_list = [
+		("num_pipeline", num_pipeline),
+		("cat_pipeline", cat_pipeline)
+	])
 		
-		self.processed_x = full_pipeline.fit_transform(self.x)
-		self.processed_y = self.min_max_scaler_y.fit_transform(self.y)
-		print('processed_x:')
-		print(self.processed_x[0:10, ])
-		print('processed_y:')
-		print(self.processed_y[0:10, ])
+	processed_x = full_pipeline.fit_transform(df_x)
+	processed_y = min_max_scaler_y.fit_transform(df_y)
+	return (processed_x, processed_y)
 
-	def model(self):
-		from sklearn.linear_model import LinearRegression
-		self.lr = LinearRegression()
-		self.lr.fit(self.train_x, self.train_y)
 
-	def predict(self, x):
-		y = self.lr.predict(x)
-		return self.min_max_scaler_y.inverse_transform(y)
+def evaluate(estimator, x, y):
+	y_hat = estimator.predict(x)
+	y = min_max_scaler_y.inverse_transform(y)
+	y_hat = min_max_scaler_y.inverse_transform(y_hat)
+	rmse = np.sqrt(np.sum((y_hat - y) * (y_hat - y)) / len(y))
+	return rmse
 
-	def evalute(self, x, y):
-		y_hat = self.predict(x)
-		y = self.min_max_scaler_y.inverse_transform(y)
-		print(y_hat[0:10, ])
-		print(y[0:10, ])
-		loss = np.sqrt(np.sum((y_hat - y) * (y_hat - y)) / len(y))
-		return loss
-predict = HousePricePredict()
-predict.read_data("housing.csv")
-predict.preprocessing()
-predict.random_split_train_test()
-predict.model()
-loss = predict.evalute(predict.test_x, predict.test_y)
-print("test loss: %.2f" % (loss))
+def score(estimator, x, y):
+	y_hat = estimator.predict(x)
+	y = min_max_scaler_y.inverse_transform(y)
+	y_hat = min_max_scaler_y.inverse_transform(y_hat)
+	loss = -1 * np.sum((y_hat - y) * (y_hat - y) / len(y))
+	return loss
 
+def cross_validation(estimator, x, y):
+	scores = cross_val_score(estimator, x, y, scoring=score, cv=5)
+	#scores = cross_val_score(estimator, x, y, scoring="neg_mean_squared_error", cv=10)
+	rmse_scores = np.sqrt(-scores)
+	print(rmse_scores)
+	print("CV Score Mean: %.2f" % (rmse_scores.mean()))
+	print("CV Score Std: %.2f" % (rmse_scores.std()))
+
+
+if __name__ == '__main__':
+	df_x, df_y = read_data("housing.csv")
+	processed_x, processed_y = preprocess(df_x, df_y)
+	(train_x, train_y), (test_x, test_y) = random_split_train_test(processed_x, processed_y)
+	ridge = Ridge()
+	ridge.fit(train_x, train_y)
+	loss = evaluate(ridge, test_x, test_y)
+	print("test loss: %.2f" % (loss))
+	cross_validation(ridge, processed_x, processed_y)
 
